@@ -1,9 +1,3 @@
-import React from 'react';
-
-import SuggestionsTab from 'Main/SuggestionsTab';
-import Tab from 'Main/Tab';
-import Talents from 'Main/Talents';
-
 import CoreCombatLogParser from 'Parser/Core/CombatLogParser';
 import DamageDone from 'Parser/Core/Modules/DamageDone';
 
@@ -12,6 +6,7 @@ import AlwaysBeCasting from './Modules/Features/AlwaysBeCasting';
 import CooldownTracker from './Modules/Features/CooldownTracker';
 import WintersChillTracker from './Modules/Features/WintersChill';
 import BrainFreeze from './Modules/Features/BrainFreeze';
+import IceLance from './Modules/Features/IceLance';
 import ThermalVoid from './Modules/Features/ThermalVoid';
 import IcicleTracker from './Modules/Features/IcicleTracker';
 import ArcticGale from './Modules/Features/ArcticGale';
@@ -19,6 +14,7 @@ import FrostBomb from './Modules/Features/FrostBomb';
 import RuneOfPower from '../Shared/Modules/Features/RuneOfPower';
 import MirrorImage from '../Shared/Modules/Features/MirrorImage';
 import UnstableMagic from '../Shared/Modules/Features/UnstableMagic';
+import SplittingIce from './Modules/Features/SplittingIce';
 
 import FrozenOrb from './Modules/Cooldowns/FrozenOrb';
 import IcyVeins from './Modules/Cooldowns/IcyVeins';
@@ -38,6 +34,7 @@ class CombatLogParser extends CoreCombatLogParser {
     cooldownTracker: CooldownTracker,
 	  wintersChillTracker: WintersChillTracker,
 	  brainFreeze: BrainFreeze,
+    iceLance: IceLance,
 	  thermalVoid: ThermalVoid,
 	  icicleTracker: IcicleTracker,
     damageDone: [DamageDone, { showStatistic: true }],
@@ -46,6 +43,7 @@ class CombatLogParser extends CoreCombatLogParser {
     unstableMagic: UnstableMagic,
     arcticGale: ArcticGale,
     frostBomb: FrostBomb,
+    splittingIce: SplittingIce,
 
 	  //Cooldowns
     frozenOrb: FrozenOrb,
@@ -58,33 +56,7 @@ class CombatLogParser extends CoreCombatLogParser {
     magtheridonsBanishedBracers: MagtheridonsBanishedBracers,
     shatteredFragmentsOfSindragosa: ShatteredFragmentsOfSindragosa,
     soulOfTheArchmage: SoulOfTheArchmage,
-
   };
-
-  generateResults() {
-    const results = super.generateResults();
-    results.tabs = [
-      {
-        title: 'Suggestions',
-        url: 'suggestions',
-        render: () => (
-          <SuggestionsTab issues={results.issues} />
-        ),
-      },
-      {
-        title: 'Talents',
-        url: 'talents',
-        render: () => (
-          <Tab title="Talents">
-            <Talents combatant={this.modules.combatants.selected} />
-          </Tab>
-        ),
-      },
-      ...results.tabs,
-    ];
-
-    return results;
-  }
 }
 
 export default CombatLogParser;

@@ -73,7 +73,7 @@ export default {
   },
 
   //Frost
-  MASTERY_ICICLES: {
+  MASTERY_ICICLES: { 
     id: 76613,
     name: 'Mastery: Icicles',
     icon: 'spell_frost_iceshard',
@@ -168,6 +168,16 @@ export default {
     name: 'Frost Bomb',
     icon: 'spell_mage_frostbomb',
   },
+  GLACIAL_SPIKE_DAMAGE: {
+    id: 228600,
+    name: 'Glacial Spike',
+    icon: 'spell_frost_frostbolt',
+  },
+  RING_OF_FROST_DAMAGE: {
+    id: 82691,
+    name: 'Ring of Frost',
+    icon: 'spell_frost_ring-of-frost',
+  },
 
   //Fire
   FIREBALL: {
@@ -225,7 +235,7 @@ export default {
     icon: 'spell_frost_frostshock',
   },
   FREEZE: {
-    id: 231596,
+    id: 33395,
     name: 'Freeze',
     icon: 'spell_frost_frostshock',
   },
@@ -234,7 +244,7 @@ export default {
     name: 'Glacial Eruption',
     icon: 'creatureportrait_creature_iceblock',
   },
-  ICICLES: {
+  ICICLE_DAMAGE: {
     id: 148022,
     name: 'Icicle',
     icon: 'spell_frost_iceshard',
@@ -327,6 +337,11 @@ export default {
     id: 195345,
     name: 'Frozen Veins',
     icon: 'spell_frost_coldhearted',
+  },
+  WARMTH_OF_THE_PHOENIX: {
+    id: 240671,
+    name: 'Warmth of the Phoenix',
+    icon: 'artifactability_firemage_phoenixbolt',
   },
 
   //Tier Sets

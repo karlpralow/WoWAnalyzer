@@ -13,7 +13,7 @@ const T212SET_RADIANCE_COOLDOWN_MS = 15000;
 
 class Tier21_2set extends Analyzer {
 
-  _timeSpentWithRadianceOnCD = 0;
+  _grossTimeSavedOnRadianceCD = 0;
 
   on_initialized() {
     this.active = this.owner.modules.combatants.selected.hasBuff(SPELLS.DISC_PRIEST_T21_2SET_BONUS_PASSIVE.id);
@@ -26,11 +26,14 @@ class Tier21_2set extends Analyzer {
       return;
     }
 
-    if(this.owner.fight.end_time - event.timestamp < T212SET_RADIANCE_COOLDOWN_MS){
-      this._timeSpentWithRadianceOnCD += (this.owner.fight.end_time - event.timestamp);
+    //  If the casts are made in the last 15 seconds, we don't add the bonus
+    //  since you don't benefit from the tier bonus
+    if(this.owner.fight.end_time - event.timestamp < T212SET_RADIANCE_COOLDOWN_MS ){
       return;
     }
-    this._timeSpentWithRadianceOnCD += T212SET_RADIANCE_COOLDOWN_MS;
+
+
+    this._grossTimeSavedOnRadianceCD += (REGULAR_RADIANCE_COOLDOWN_MS - T212SET_RADIANCE_COOLDOWN_MS);
   }
 
   item() {
@@ -40,15 +43,11 @@ class Tier21_2set extends Analyzer {
       title: <SpellLink id={SPELLS.DISC_PRIEST_T21_2SET_BONUS_PASSIVE.id} />,
       result: (
         <span>
-          {this._timeSpentWithRadianceOnCD}
+          Gross time saved: {(this._grossTimeSavedOnRadianceCD/ 1000).toFixed(2)} seconds <br/>
+          Net time saved: 0 seconds
         </span>
       ),
     };
-  }
-
-  on_finished() {
-    console.log(this._timeSpentWithRadianceOnCD);
-    console.log(this._radianceCount);
   }
 
 }

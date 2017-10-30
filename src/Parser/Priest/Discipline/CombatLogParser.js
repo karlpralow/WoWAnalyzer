@@ -83,11 +83,7 @@ class CombatLogParser extends CoreCombatLogParser {
     marchOfTheLegion: MarchOfTheLegion,
     tier20_2set: Tier20_2set,
     tier20_4set: Tier20_4set,
-<<<<<<< HEAD
     tier21_2set: Tier21_2set,
-=======
-    // SoulOfTheHighPriest: SoulOfTheHighPriest,
->>>>>>> upstream/master
 
     // Spells (talents and traits):
     twistOfFate: TwistOfFate,

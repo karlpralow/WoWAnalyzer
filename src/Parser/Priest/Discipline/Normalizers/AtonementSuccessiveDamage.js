@@ -15,6 +15,9 @@ class AtonementSuccessiveDamage extends EventsNormalizer {
 
       fixedEvents.push(event);
 
+      if(event.sourceID !== this.owner.player.id)
+        return;
+
       if(event.type === "damage" && event.sourceIsFriendly && !event.targetIsFriendly){
         _damageEventIndexes.push(eventIndex);
         _encounteredTargetIDs = [];

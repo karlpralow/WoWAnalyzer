@@ -30,6 +30,18 @@ class PurgeTheWicked extends Analyzer {
     return this.enemies.getBuffUptime(this.dotSpell.id) / this.owner.fightDuration;
   }
 
+  get suggestionThresholds() {
+    return {
+      actual: this.uptime,
+      isLessThan: {
+        minor: 0.75,
+        average: 0.7,
+        major: 0.6,
+      },
+      style: 'percentage',
+    };
+  }
+
   suggestions(when) {
     const uptime = this.uptime || 0;
 

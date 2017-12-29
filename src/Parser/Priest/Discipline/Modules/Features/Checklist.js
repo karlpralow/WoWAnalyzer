@@ -17,6 +17,7 @@ import PrePotion from 'Parser/Core/Modules/Items/PrePotion';
 import EnchantChecker from 'Parser/Core/Modules/Items/EnchantChecker';
 
 import AlwaysBeCasting from './AlwaysBeCasting';
+import PurgeTheWicked from './PurgeTheWicked';
 
 class Checklist extends CoreChecklist {
 
@@ -29,6 +30,7 @@ class Checklist extends CoreChecklist {
     legendaryCountChecker: LegendaryCountChecker,
     prePotion: PrePotion,
     enchantChecker: EnchantChecker,
+    purgeTheWicked: PurgeTheWicked,
   };
 
   rules = [    new Rule({
@@ -39,7 +41,7 @@ class Checklist extends CoreChecklist {
         // Avoid making too many things a URL. Including a link to a guide that goes into further detail is recommended.
         description: (
           <Wrapper>
-            Spells such as <SpellLink id={SPELLS.PENANCE.id} icon /> and <SpellLink id={SPELLS.POWER_WORD_SHIELD.id} icon /> should be casted on cooldown.
+            Spells such as <SpellLink id={SPELLS.PENANCE.id} icon /> and <SpellLink id={SPELLS.POWER_WORD_SHIELD.id} icon /> should be casted on cooldown. <br/>You should also always try to keep at least 1 charge of <SpellLink id={SPELLS.POWER_WORD_RADIANCE.id} icon /> on cooldown.
           </Wrapper>
         ),
         // The list of requirements for the Rule. Since it's a method you can run any code in here you want, but please try to keep is as simple as possible.
@@ -51,6 +53,9 @@ class Checklist extends CoreChecklist {
             }),
             new GenericCastEfficiencyRequirement({
               spell: SPELLS.POWER_WORD_SHIELD,
+            }),
+            new GenericCastEfficiencyRequirement({
+              spell: SPELLS.POWER_WORD_RADIANCE,
             }),
           ];
         },
@@ -77,7 +82,23 @@ class Checklist extends CoreChecklist {
               when: !combatant.hasTalent(SPELLS.MINDBENDER_TALENT_SHARED.id),
             }),
             new GenericCastEfficiencyRequirement({
+              spell: SPELLS.MINDBENDER_TALENT_SHARED,
+              when: combatant.hasTalent(SPELLS.MINDBENDER_TALENT_SHARED.id),
+            }),
+            new GenericCastEfficiencyRequirement({
               spell: SPELLS.RAPTURE,
+            }),
+          ];
+        },
+      }),
+      new Rule({
+        name: <Wrapper>Keep <SpellLink id={SPELLS.PURGE_THE_WICKED_TALENT.id} icon /> up </Wrapper>,
+        description: <Wrapper>You should aim at keeping <SpellLink id={SPELLS.PURGE_THE_WICKED_TALENT.id} icon /> up at all times. Keeping it up on multiple targets is recommended when possible.</Wrapper>,
+        requirements: () => {
+          return [
+            new Requirement({
+              name: 'Dot Uptime',
+              check: () => this.purgeTheWicked.suggestionThresholds,
             }),
           ];
         },

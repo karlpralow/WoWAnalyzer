@@ -27,7 +27,7 @@ import Overhealing from '../PaladinCore/Overhealing';
 class Checklist extends CoreChecklist {
   static dependencies = {
     castEfficiency: CastEfficiency,
-    combatants: Combatants,
+
     masteryEffectiveness: MasteryEffectiveness,
     alwaysBeCasting: AlwaysBeCasting,
     beaconHealing: BeaconHealing,

@@ -15,6 +15,7 @@ import SpellManaCost from './Modules/Core/SpellManaCost';
 import AbilityTracker from './Modules/Core/AbilityTracker';
 
 import Abilities from './Modules/Features/Abilities';
+import Checklist from './Modules/Features/Checklist';
 import AlwaysBeCasting from './Modules/Features/AlwaysBeCasting';
 import CooldownThroughputTracker from './Modules/Features/CooldownThroughputTracker';
 import PowerWordShieldWasted from './Modules/Features/PowerWordShieldWasted';
@@ -68,6 +69,7 @@ class CombatLogParser extends CoreCombatLogParser {
     abilityTracker: AbilityTracker,
     lowHealthHealing: LowHealthHealing,
     abilities: Abilities,
+    checklist: Checklist,
 
     // Abilities
     penance: Penance,

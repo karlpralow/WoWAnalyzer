@@ -19,7 +19,7 @@ class Abilities extends CoreAbilities {
       spell: SPELLS.POWER_WORD_RADIANCE,
       name: `${SPELLS.POWER_WORD_RADIANCE.name}`,
       category: Abilities.SPELL_CATEGORIES.ROTATIONAL,
-      getCooldown: haste => 18,
+      getCooldown: (haste, combatant) => combatant.hasBuff(SPELLS.DISC_PRIEST_T21_2SET_BONUS_PASSIVE.id) ? 15 : 18,
       getCasts: castCount => castCount.casts,
       charges: 2,
     },

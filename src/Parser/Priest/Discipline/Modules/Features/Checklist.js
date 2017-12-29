@@ -34,11 +34,7 @@ class Checklist extends CoreChecklist {
   };
 
   rules = [    new Rule({
-        // The name of the Rule as you want it to appear in the Checklist.
-        // You can also make this a React node if you want to use `SpellLink` or other JSX (HTML), in that case wrap the contents with the <Wrapper> component.
         name: 'Use core abilities as often as possible',
-        // The description that is shown when the Rule is expanded.
-        // Avoid making too many things a URL. Including a link to a guide that goes into further detail is recommended.
         description: (
           <Wrapper>
             Spells such as <SpellLink id={SPELLS.PENANCE.id} icon /> and <SpellLink id={SPELLS.POWER_WORD_SHIELD.id} icon /> should be casted on cooldown. <br/>You should also always try to keep at least 1 charge of <SpellLink id={SPELLS.POWER_WORD_RADIANCE.id} icon /> on cooldown.
@@ -62,7 +58,7 @@ class Checklist extends CoreChecklist {
       }),
       new Rule({
         name: 'Use cooldowns effectively',
-        description: <Wrapper>Your cooldowns are an important contributor to your healing throughput. Try to get in as many efficient casts as the fight allows. <a href="https://www.wowhead.com/holy-paladin-rotation-guide#gameplay-and-priority-list" target="_blank" rel="noopener noreferrer">More info.</a></Wrapper>,
+        description: <Wrapper>Your cooldowns are an important contributor to your healing throughput. Try to get in as many efficient casts as the fight allows.</Wrapper>,
         requirements: () => {
           const combatant = this.combatants.selected;
           return [
@@ -74,8 +70,7 @@ class Checklist extends CoreChecklist {
               when: combatant.hasTalent(SPELLS.EVANGELISM_TALENT.id),
             }),
             new GenericCastEfficiencyRequirement({
-              spell: SPELLS.VELENS_FUTURE_SIGHT_BUFF,
-              when: combatant.hasTrinket(ITEMS.VELENS_FUTURE_SIGHT.id),
+              spell: SPELLS.RAPTURE,
             }),
             new GenericCastEfficiencyRequirement({
               spell: SPELLS.SHADOWFIEND,
@@ -86,7 +81,12 @@ class Checklist extends CoreChecklist {
               when: combatant.hasTalent(SPELLS.MINDBENDER_TALENT_SHARED.id),
             }),
             new GenericCastEfficiencyRequirement({
-              spell: SPELLS.RAPTURE,
+              spell: SPELLS.VELENS_FUTURE_SIGHT_BUFF,
+              when: combatant.hasTrinket(ITEMS.VELENS_FUTURE_SIGHT.id),
+            }),
+            new GenericCastEfficiencyRequirement({
+              spell: SPELLS.REFRESHING_AGONY_DOT,
+              when: combatant.hasTrinket(ITEMS.CARAFE_OF_SEARING_LIGHT.id),
             }),
           ];
         },

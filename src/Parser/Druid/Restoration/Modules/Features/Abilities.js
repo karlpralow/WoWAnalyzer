@@ -27,17 +27,6 @@ class Abilities extends CoreAbilities {
         },
       },
       {
-        spell: SPELLS.ESSENCE_OF_GHANIR,
-        category: Abilities.SPELL_CATEGORIES.COOLDOWNS,
-        cooldown: 90,
-        castEfficiency: {
-          suggestion: true,
-          recommendedEfficiency: 0.80,
-          averageIssueEfficiency: 0.60,
-          majorIssueEfficiency: 0.40,
-        },
-      },
-      {
         spell: SPELLS.IRONBARK,
         category: Abilities.SPELL_CATEGORIES.COOLDOWNS,
         cooldown: (_, combatant) => {

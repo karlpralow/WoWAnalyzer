@@ -23,7 +23,6 @@ import Clearcasting from './Clearcasting';
 import Efflorescence from './Efflorescence';
 import Innervate from './Innervate';
 import Lifebloom from './Lifebloom';
-import NaturesEssence from './NaturesEssence';
 import WildGrowth from './WildGrowth';
 
 import Cultivation from '../Talents/Cultivation';
@@ -42,7 +41,6 @@ class Checklist extends CoreChecklist {
     innervate: Innervate,
     lifebloom: Lifebloom,
     manaValues: ManaValues,
-    naturesEssence: NaturesEssence,
     wildGrowth: WildGrowth,
 
     cultivation: Cultivation,
@@ -54,6 +52,19 @@ class Checklist extends CoreChecklist {
     prePotion: PrePotion,
     enchantChecker: EnchantChecker,
   };
+
+  get suggestionThresholds() {
+  return {
+    actual: this.percentBelowRecommendedCasts,
+    isGreaterThan: {
+      minor: 0.00,
+      average: 0.15,
+      major: 0.35,
+    },
+    style: 'percentage',
+  };
+}
+
 
   rules = [
     new Rule({

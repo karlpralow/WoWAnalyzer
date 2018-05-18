@@ -36,8 +36,8 @@ class BaseHealerStatValues extends Analyzer {
 
   // We assume unlisted spells scale with vers only (this will mostly be trinkets)
   fallbackSpellInfo = {
-    int: false,
-    crit: false,
+    int: true,
+    crit: true,
     hasteHpm: false,
     hasteHpct: false,
     mastery: false,

@@ -12,6 +12,8 @@ import EstelNormalizer from './Normalizers/EstelNormalizer';
 import ShadowfiendNormalizer from './Normalizers/ShadowfiendNormalizer';
 import PowerWordRadianceNormalizer from './Normalizers/PowerWordRadianceNormalizer';
 
+import StatWeights from './Modules/Features/StatWeights';
+
 import Abilities from './Modules/Abilities';
 import SpellUsable from './Modules/Core/SpellUsable';
 import SpellManaCost from './Modules/Core/SpellManaCost';
@@ -114,6 +116,8 @@ class CombatLogParser extends CoreCombatLogParser {
     luminousBarrier: LuminousBarrier,
     contrition: Contrition,
     reverence: Reverence,
+
+    statWeights: StatWeights,
   };
 
   generateResults() {

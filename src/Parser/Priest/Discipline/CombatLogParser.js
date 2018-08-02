@@ -56,6 +56,8 @@ import SinsOfTheMany from './Modules/Spells/SinsOfTheMany';
 
 import { ABILITIES_AFFECTED_BY_HEALING_INCREASES } from './Constants';
 
+import MomentOfRepose from './Modules/Spells/BFA/AzeriteTraits/MomentOfRepose';
+
 class CombatLogParser extends CoreCombatLogParser {
   static abilitiesAffectedByHealingIncreases = ABILITIES_AFFECTED_BY_HEALING_INCREASES;
 
@@ -118,6 +120,9 @@ class CombatLogParser extends CoreCombatLogParser {
     grace: Grace,
     schism: Schism,
     sinsOfTheMany: SinsOfTheMany,
+
+    // Azerite Traits:
+    momentOfRepose: MomentOfRepose,
   };
 }
 

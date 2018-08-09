@@ -24,17 +24,33 @@ class Photosynthesis extends Analyzer {
 
   lastRealBloomTimestamp = null;
 
+  lifebloomEvents = [];
+
   constructor(...args) {
     super(...args);
     this.active = this.selectedCombatant.hasTalent(SPELLS.PHOTOSYNTHESIS_TALENT.id);
   }
 
-  on_byPlayer_refreshbuff(event) {
+  on_byPlayer_cast(event){
     const spellId = event.ability.guid;
 
     if (spellId === SPELLS.LIFEBLOOM_HOT_HEAL.id) {
-      this.lastRealBloomTimestamp = event.timestamp;
+      this.lifebloomEvents.push({
+        lifebloomCastEvent: event,
+        blooms: [],
+        lifebloomFadedEvent: null,
+      })
     }
+  }
+
+  on_byPlayer_refreshbuff(event) {
+    const spellId = event.ability.guid;
+
+    if (spellId !== SPELLS.LIFEBLOOM_HOT_HEAL.id) {
+      return;
+    }
+    if(this.lifebloomEvents[this.lifebloomEvents.length - 1])
+      this.lifebloomEvents[this.lifebloomEvents.length - 1].lifebloomFadedEvent = event;
   }
 
   on_byPlayer_removebuff(event){
@@ -42,23 +58,27 @@ class Photosynthesis extends Analyzer {
     if(spellId !== SPELLS.LIFEBLOOM_HOT_HEAL.id) {
       return;
     }
-    this.lastRealBloomTimestamp = event.timestamp;
+    if(this.lifebloomEvents[this.lifebloomEvents.length - 1])
+      this.lifebloomEvents[this.lifebloomEvents.length - 1].lifebloomFadedEvent = event;
   }
 
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
     const amount = event.amount + (event.absorbed || 0);
 
-    if(spellId === SPELLS.REJUVENATION.id && this.selectedCombatant.hasBuff(SPELLS.LIFEBLOOM_HOT_HEAL.id, null, 0, 0, this.selectedCombatant.sourceID)) {
-      this.rejuvenationIncrease += calculateEffectiveHealing(event, PHOTOSYNTHESIS_REJUV_INCREASE);
+    if(spellId !== SPELLS.LIFEBLOOM_BLOOM_HEAL.id){
+      return;
     }
 
-    if(spellId === SPELLS.LIFEBLOOM_BLOOM_HEAL.id && (this.lastRealBloomTimestamp === null || (event.timestamp - this.lastRealBloomTimestamp) > BLOOM_BUFFER_MS)){
-      this.lifebloomIncrease += amount;
-    }
+    if(this.lifebloomEvents[this.lifebloomEvents.length - 1])
+      this.lifebloomEvents[this.lifebloomEvents.length - 1].blooms.push(event);
+
   }
 
   statistic() {
+
+    console.log(this.lifebloomEvents);
+
     const totalPercent = this.owner.getPercentageOfTotalHealingDone(this.rejuvenationIncrease + this.lifebloomIncrease);
     const sourceID = this.selectedCombatant._combatantInfo.sourceID;
     const selfUptime = this.selectedCombatant.getBuffUptime(SPELLS.LIFEBLOOM_HOT_HEAL.id, sourceID);

@@ -6,4 +6,9 @@ export default {
     name: 'Moment of Repose',
     icon: 'spell_holy_painsupression',
   },
+  MOMENT_OF_REPOSE_HEAL: {
+    id: 272776,
+    name: 'Moment of Repose',
+    icon: 'spell_holy_painsupression',
+  }
 };

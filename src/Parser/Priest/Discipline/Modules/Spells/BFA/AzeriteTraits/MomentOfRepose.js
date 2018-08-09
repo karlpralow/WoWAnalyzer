@@ -14,10 +14,15 @@ import isAtonement from '../../../Core/isAtonement';
 class MomentOfRepose extends Analyzer {
 
   painSuppressionAtonementUp = false;
-  lastPainSuppressionCastEvent = null;
+  painSuppressionTarget = null;
 
   atonementHealing = 0;
   directHealing = 0;
+
+  constructor(...args) {
+    super(...args);
+    this.active = this.selectedCombatant.hasTrait(SPELLS.MOMENT_OF_REPOSE.id);
+  }
 
   on_byPlayer_cast(event) {
     const spellId = event.ability.guid;
@@ -26,53 +31,54 @@ class MomentOfRepose extends Analyzer {
     }
 
     this.painSuppressionAtonementUp = true;
-    this.lastPainSuppressionCastEvent = event;
+    this.painSuppressionTarget = event.targetID;
   }
 
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
-    if(spellId === "272775") {
+    if(spellId === SPELLS.MOMENT_OF_REPOSE_HEAL.id) {
       this.directHealing += event.amount;
     }
 
-    if (isAtonement(event) && this.painSuppressionAtonementUp && event.target === this.lastPainSuppressionCastEvent.target) {
-      this.atonementHealing += event.amount;
+    if (isAtonement(event) && this.painSuppressionAtonementUp) {
+      if(event.targetID === this.painSuppressionTarget) {
+        this.atonementHealing += event.amount;
+      }
     }
   }
 
-  on_byplayer_removebuff(event) {
-    if(this.painSuppressionAtonementUp && isAtonement(event) && event.target === this.lastPainSuppressionCastEvent.target){
-      this.painSuppressionAtonementUp = false;
-    }
+  on_byPlayer_removebuff(event) {
+    this.checkIfAtonementFaded(event);
   }
 
-  on_byplayer_refreshbuff(event) {
-    if(this.painSuppressionAtonementUp && isAtonement(event) && event.target === this.lastPainSuppressionCastEvent.target){
+  on_byPlayer_refreshbuff(event) {
+    this.checkIfAtonementFaded(event);
+  }
+
+  checkIfAtonementFaded(event) {
+    if(this.painSuppressionAtonementUp && event.ability.guid === SPELLS.ATONEMENT_BUFF.id && event.targetID === this.painSuppressionTarget){
       this.painSuppressionAtonementUp = false;
     }
   }
 
   statistic() {
-
-    const directHealingPct = this.owner.getPercentageOfTotalHealingDone(this.directHealing);
-    const atonementHealingPct = this.owner.getPercentageOfTotalHealingDone(this.atonementHealing);
+    const directHealingPct = formatPercentage(this.owner.getPercentageOfTotalHealingDone(this.directHealing));
+    const atonementHealingPct = formatPercentage(this.owner.getPercentageOfTotalHealingDone(this.atonementHealing));
 
     return (
       <StatisticBox
-        icon={<SpellIcon id={SPELLS.EVANGELISM_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.MOMENT_OF_REPOSE.id} />}
         value={`${formatNumber(
           (this.directHealing + this.atonementHealing) / this.owner.fightDuration * 1000
         )} HPS`}
         label="Moment of Repose Azerite Trait"
         tooltip={`
-          Direct Heal: <b>${formatPercentage(directHealingPct)}%</b> healing <br />
-          Atonement Heal: <b>${formatPercentage(atonementHealingPct)}%</b> healing
-
+          Direct Heal: <b>${directHealingPct}%</b> healing <br />
+          Atonement Heal: <b>${atonementHealingPct}%</b> healing
         `}
       />
     );
   }
-
 }
 
 export default MomentOfRepose;

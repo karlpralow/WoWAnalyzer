@@ -1,17 +1,11 @@
 import SPELLS from 'common/SPELLS';
 
 import CoreSpellManaCost from 'parser/shared/modules/SpellManaCost';
-// import Penance from '../Spells/Penance';
 
 /** The amount of time during which it's impossible a second Penance could have started */
 const PENANCE_CHANNEL_TIME_BUFFER = 2500;
 
-const debug = false;
-
 class SpellManaCost extends CoreSpellManaCost {
-  // static dependencies = {
-  //   penance: Penance, // we need this to add `penanceBoltNumber` to the cast event
-  // };
 
   lastPenanceStartTimestamp = null;
   getHardcodedManaCost(event) {
@@ -29,20 +23,6 @@ class SpellManaCost extends CoreSpellManaCost {
       }
     }
     return hardcodedCost;
-  }
-  getResourceCost(event) {
-    let cost = super.getResourceCost(event);
-    if (cost === 0) {
-      return cost;
-    }
-
-    // Kam Xi'raff reduces the mana cost of damaging spells by 75%
-    if (!event.targetIsFriendly && this.selectedCombatant.hasBuff(SPELLS.KAM_XIRAFF_BUFF.id, event.timestamp)) {
-      debug && console.log('Hostile spell and', SPELLS.KAM_XIRAFF_BUFF.name, 'is active, reducing cost (', cost, ') by 75%');
-      cost *= 0.25;
-    }
-
-    return cost;
   }
 }
 
